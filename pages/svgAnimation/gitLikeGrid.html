@@ -1,62 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contribution Grid Animation</title>
-<style>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(53, 10px); /* 53 weeks */
-    grid-gap: 2px;
-  }
-  .day {
-    width: 10px;
-    height: 10px;
-    background-color: #216e39;
-    opacity: 0.7;
-  }
-  .blink {
-    animation: blink-animation 1s infinite;
-  }
-  @keyframes blink-animation {
-    50% {
-      opacity: 1;
-    }
-  }
-</style>
+    <meta charset="UTF-8">
+    <title>Blinking SVG Grid</title>
 </head>
 <body>
 
-<div id="grid" class="grid"></div>
+<button id="downloadBtn">Download SVG</button>
+
+<div id="svgContainer"></div>
 
 <script>
-  const grid = document.getElementById('grid');
-  
-  // Create a grid similar to the GitHub contributions graph
-  for (let i = 0; i < 7 * 53; i++) { // 7 days per week, 53 weeks
-    const day = document.createElement('div');
-    day.className = 'day';
-    grid.appendChild(day);
-  }
-  
-  // Function to randomly select a rectangle to blink
-  function blinkRandomRect() {
-    const rects = document.querySelectorAll('.day');
-    const randomRectIndex = Math.floor(Math.random() * rects.length);
-    const rect = rects[randomRectIndex];
-    
-    // Add blink class to make the rect blink
-    rect.classList.add('blink');
-    
-    // Remove the class after some time
-    setTimeout(() => {
-      rect.classList.remove('blink');
-    }, 1000);
-  }
-  
-  // Blink a random rectangle every 200ms
-  setInterval(blinkRandomRect, 200);
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    // Create SVG element
+    let svgElem = document.createElementNS(svgNS, "svg");
+    svgElem.setAttribute("width", "200");
+    svgElem.setAttribute("height", "200");
+    svgElem.setAttribute("viewBox", "0 0 200 200");
+    svgElem.setAttribute("xmlns", svgNS);
+
+    // Create grid of rectangles
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            let rect = document.createElementNS(svgNS, "rect");
+            rect.setAttribute("x", i * 20);
+            rect.setAttribute("y", j * 20);
+            rect.setAttribute("width", "18");
+            rect.setAttribute("height", "18");
+            rect.setAttribute("fill", "#216e39");
+            rect.classList.add("rect");
+
+            // Add blinking animation to each rectangle
+            let animate = document.createElementNS(svgNS, "animate");
+            animate.setAttribute("attributeType", "XML");
+            animate.setAttribute("attributeName", "opacity");
+            animate.setAttribute("values", "0.2;1;0.2");
+            animate.setAttribute("dur", "1s");
+            animate.setAttribute("repeatCount", "indefinite");
+            animate.setAttribute("begin", `${Math.random()}s`); // random start for blinking
+
+            rect.appendChild(animate);
+            svgElem.appendChild(rect);
+        }
+    }
+
+    // Append the SVG to the container
+    document.getElementById("svgContainer").appendChild(svgElem);
+
+    // Function to download the SVG
+    function downloadSVG() {
+        let data = new XMLSerializer().serializeToString(svgElem);
+        let svgBlob = new Blob([data], {type:"image/svg+xml;charset=utf-8"});
+        let svgUrl = URL.createObjectURL(svgBlob);
+        let downloadLink = document.createElement("a");
+        downloadLink.href = svgUrl;
+        downloadLink.download = "blinking-grid.svg";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    // Add event listener to button
+    document.getElementById("downloadBtn").addEventListener("click", downloadSVG);
 </script>
 
 </body>
