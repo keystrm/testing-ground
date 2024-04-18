@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble Sort Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    let values = [];
+    let i = 0;
+    let j = 0;
+
+    function setup() {
+        createCanvas(windowWidth, 400);
+        values = new Array(width);
+        for (let i = 0; i < values.length; i++) {
+            values[i] = random(height);
+        }
+        frameRate(25);
+    }
+
+    function draw() {
+        background(0);
+        if (i < values.length) {
+            for (let j = 0; j < values.length - i - 1; j++) {
+                let a = values[j];
+                let b = values[j + 1];
+                if (a > b) {
+                    swap(values, j, j + 1);
+                }
+            }
+        } else {
+            noLoop();
+        }
+        i++;
+
+        for (let k = 0; k < values.length; k++) {
+            stroke(255);
+            line(k, height, k, height - values[k]);
+        }
+    }
+
+    function swap(arr, a, b) {
+        let temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+</script>
+</body>
+</html>
