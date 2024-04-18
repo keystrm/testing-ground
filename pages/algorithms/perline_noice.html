@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perlin Noise Landscape</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    let start = 0;
+
+    function setup() {
+        createCanvas(windowWidth, 400);
+    }
+
+    function draw() {
+        background(51);
+        stroke(255);
+        noFill();
+        beginShape();
+        let xoff = start;
+        for (let x = 0; x < width; x++) {
+            stroke(255);
+            let y = noise(xoff) * height;
+            vertex(x, y);
+            xoff += 0.05;
+        }
+        endShape();
+
+        start += 0.01;
+    }
+</script>
+</body>
+</html>
