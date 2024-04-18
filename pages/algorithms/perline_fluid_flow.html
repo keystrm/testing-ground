@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perlin Noise Flow Field</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    let inc = 0.1;
+    let scl = 10;
+    let cols, rows;
+
+    function setup() {
+        createCanvas(400, 400);
+        cols = floor(width / scl);
+        rows = floor(height / scl);
+    }
+
+    function draw() {
+        background(255);
+        let yoff = 0;
+        for (let y = 0; y < rows; y++) {
+            let xoff = 0;
+            for (let x = 0; x < cols; x++) {
+                let angle = noise(xoff, yoff) * TWO_PI * 4;
+                let v = p5.Vector.fromAngle(angle);
+                xoff += inc;
+                stroke(0);
+                push();
+                translate(x * scl, y * scl);
+                rotate(v.heading());
+                strokeWeight(1);
+                line(0, 0, scl, 0);
+                pop();
+            }
+            yoff += inc;
+        }
+    }
+</script>
+</body>
+</html>

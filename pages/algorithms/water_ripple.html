@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Water Ripple Effect</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    let damping = 0.99;
+    let cols, rows;
+    let current, previous;
+
+    function setup() {
+        pixelDensity(1);
+        createCanvas(400, 400);
+        cols = width;
+        rows = height;
+        current = new Array(cols).fill(0).map(n => new Array(rows).fill(0));
+        previous = new Array(cols).fill(0).map(n => new Array(rows).fill(0));
+    }
+
+    function mouseDragged() {
+        if (mouseX > 1 && mouseX < width - 1 && mouseY > 1 && mouseY < height - 1) {
+            previous[mouseX][mouseY] = 1000;
+        }
+    }
+
+    function draw() {
+        background(0);
+
+        for (let i = 1; i < cols - 1; i++) {
+            for (let j = 1; j < rows - 1; j++) {
+                current[i][j] = (
+                    previous[i - 1][j] +
+                    previous[i + 1][j] +
+                    previous[i][j - 1] +
+                    previous[i][j + 1]
+                ) / 2 - current[i][j];
+                current[i][j] *= damping;
+
+                let index = (i + j * cols) * 4;
+                pixels[index + 0] = 255 * (1 - current[i][j]);
+            }
+        }
+
+        swap();
+    }
+
+    function swap() {
+        let temp = previous;
+        previous = current;
+        current = temp;
+    }
+</script>
+</body>
+</html>
