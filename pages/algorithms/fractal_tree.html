@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fractal Tree</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+<script>
+    let angle;
+    let slider;
+
+    function setup() {
+        createCanvas(400, 400);
+        slider = createSlider(0, TWO_PI, PI / 4, 0.01);
+        slider.position(10, 10);
+    }
+
+    function draw() {
+        background(51);
+        angle = slider.value();
+        stroke(255);
+        translate(width / 2, height);
+        drawBranch(100);
+    }
+
+    function drawBranch(len) {
+        line(0, 0, 0, -len);
+        translate(0, -len);
+        if (len > 4) {
+            push();
+            rotate(angle);
+            drawBranch(len * 0.67);
+            pop();
+            push();
+            rotate(-angle);
+            drawBranch(len * 0.67);
+            pop();
+        }
+    }
+</script>
+</body>
+</html>
