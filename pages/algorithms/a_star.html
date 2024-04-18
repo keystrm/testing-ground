@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A* Pathfinding Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    </style>
+</head>
+<body>
+<script>
+    const cols = 50;
+    const rows = 50;
+    const grid = new Array(cols);
+    const openSet = [];
+    const closedSet = [];
+    let start;
+    let end;
+    const w = 20;
+    const h = 20;
+
+    function Spot(i, j) {
+        this.x = i;
+        this.y = j;
+        this.f = 0;
+        this.g = 0;
+        this.h = 0;
+        this.neighbors = [];
+        this.previous = undefined;
+        
+        this.show = function(col) {
+            fill(col);
+            noStroke();
+            rect(this.x * w, this.y * h, w - 1, h - 1);
+        };
+        
+        this.addNeighbors = function(grid) {
+            if (this.x < cols - 1) this.neighbors.push(grid[this.x + 1][this.y]);
+            if (this.x > 0) this.neighbors.push(grid[this.x - 1][this.y]);
+            if (this.y < rows - 1) this.neighbors.push(grid[this.x][this.y + 1]);
+            if (this.y > 0) this.neighbors.push(grid[this.x][this.y - 1]);
+        };
+    }
+    
+    function setup() {
+        createCanvas(400, 400);
+        // Creating a 2D array
+        for (let i = 0; i < cols; i++) {
+            grid[i] = new Array(rows);
+        }
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                grid[i][j] = new Spot(i, j);
+            }
+        }
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                grid[i][j].addNeighbors(grid);
+            }
+        }
+        
+        start = grid[0][0];
+        end = grid[cols - 1][rows - 1];
+        openSet.push(start);
+    }
+    
+    function draw() {
+        if (openSet.length > 0) {
+            let lowestIndex = 0;
+            for (let i = 0; i < openSet.length; i++) {
+                if (openSet[i].f < openSet[lowestIndex].f) {
+                    lowestIndex = i;
+                }
+            }
+            let current = openSet[lowestIndex];
+            
+            if (current === end) {
+                noLoop();
+                console.log("DONE!");
+            }
+            
+            openSet.splice(lowestIndex, 1);
+            closedSet.push(current);
+            
+            let neighbors = current.neighbors;
+            for (let i = 0; i < neighbors.length; i++) {
+                let neighbor = neighbors[i];
+                
+                if (!closedSet.includes(neighbor)) {
+                    let tempG = current.g + 1;
+                    
+                    if (openSet.includes(neighbor)) {
+                        if (tempG < neighbor.g) {
+                            neighbor.g = tempG;
+                        }
+                    } else {
+                        neighbor.g = tempG;
+                        openSet.push(neighbor);
+                    }
+                    
+                    neighbor.h = heuristic(neighbor, end);
+                    neighbor.f = neighbor.g + neighbor.h;
+                    neighbor.previous = current;
+                }
+            }
+        } else {
+            // no solution
+            console.log("no solution");
+            noLoop();
+            return;
+        }
+        
+        background(0);
+        
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                grid[i][j].show(color(255));
+            }
+        }
+        
+        for (let i = 0; i < closedSet.length; i++) {
+            closedSet[i].show(color(255, 0, 0));
+        }
+        
+        for (let i = 0; i < openSet.length; i++) {
+            openSet[i].show(color(0, 255, 0));
+        }
+    }
+    
+    function heuristic(a, b) {
+        let d = dist(a.x, a.y, b.x, b.y);
+        return d;
+    }
+</script>
+</body>
+</html>
