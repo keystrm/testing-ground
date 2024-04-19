@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Screen Div Layout</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="fixed-height">
+      Content with constant height
+    </div>
+    <div class="flexible-height">
+      Content with flexible height
+    </div>
+  </div>
+</body>
+<style>
+    html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensures that the body takes full height of the viewport */
+}
+
+.container {
+  display: flex; /* Using flexbox to manage the container */
+  flex-direction: column; /* Align children vertically */
+  height: 100vh; /* vh (Viewport Height) units to fill the entire screen */
+}
+
+.fixed-height {
+  height: 100px; /* Example of a fixed height */
+  background-color: blue;
+}
+
+.flexible-height {
+  flex-grow: 1; /* Takes up all available space */
+  background-color: red;
+  overflow:auto; /* Adds scroll if content exceeds height */
+}
+
+</style>
+</html>
