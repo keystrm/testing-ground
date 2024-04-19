@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fractal Tree Growth Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    function setup() {
+        createCanvas(800, 600);
+        background(255);
+        let origin = createVector(width / 2, height);
+        let root = createVector(0, -100);
+        translate(origin.x, origin.y);
+        stroke(0, 100);
+        branch(root, 10); // Start with 10 branches
+    }
+
+    function branch(base, levels) {
+        if (levels === 0) return;
+
+        let activities = [ // Example activities data for each day
+            {commits: 4, pullRequests: 1, issues: 0},
+            {commits: 2, pullRequests: 3, issues: 7},
+            {commits: 3, pullRequests: 4, issues: 5},
+            {commits: 1, pullRequests: 5, issues: 7},
+            {commits: 4, pullRequests: 6, issues: 1},
+       
+
+            // Add more daily data here...
+        ];
+
+        for (let activity of activities) {
+            let branchLength = activity.commits * 10; // Calculate branch length based on commits
+            let newBase = p5.Vector.add(base, p5.Vector.mult(base, 0.67));
+            line(0, 0, newBase.x, newBase.y);
+            push();
+            rotate(random(-0.1, 0.1)); // Randomize the rotation slightly to simulate organic growth
+            translate(newBase.x, newBase.y);
+            branch(newBase, levels - 1);
+            pop();
+        }
+    }
+</script>
+</body>
+</html>
