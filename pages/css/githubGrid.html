@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribution Grid Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 p-10">
+    <div class="overflow-auto">
+        <!-- Contribution Grid -->
+        <div class="bg-gray-900 rounded-lg p-4">
+            <!-- Month Labels -->
+            <div class="flex justify-between text-gray-400 text-sm mb-2 px-2">
+                <!-- Assuming 4 months for brevity -->
+                <span class="text-red">Jan</span> <span>Feb</span> <span>Mar</span> <span>Apr</span>
+            </div>
+            <!-- Grid -->
+            <div class="grid grid-cols-7 gap-2">
+                <!-- Days of the week -->
+                <div class="text-gray-500 text-xs">Sun</div>
+                <div class="text-gray-500 text-xs">Mon</div>
+                <div class="text-gray-500 text-xs">Tue</div>
+                <div class="text-gray-500 text-xs">Wed</div>
+                <div class="text-gray-500 text-xs">Thu</div>
+                <div class="text-gray-500 text-xs">Fri</div>
+                <div class="text-gray-500 text-xs">Sat</div>
+                <!-- Contribution days (just repeating for demo, you'd generate this) -->
+                <!-- ... -->
+                <!-- Example Day Block -->
+                <div class="w-3 h-3 bg-green-100 rounded-sm"></div>
+                <!-- ... -->
+                <div class="w-3 h-3 bg-green-300 rounded-sm"></div>
+                <!-- ... -->
+                <div class="w-3 h-3 bg-green-500 rounded-sm"></div>
+                <!-- ... -->
+                <div class="w-3 h-3 bg-green-700 rounded-sm"></div>
+                <!-- ... -->
+                <div class="w-3 h-3 bg-green-900 rounded-sm"></div>
+                <!-- ... -->
+                <!-- End of Example Day Block -->
+                <!-- Repeat the blocks for the number of days in your range -->
+            </div>
+            <!-- Legend -->
+            <div class="flex justify-end mt-4">
+                <div class="flex items-center">
+                    <span class="text-gray-400 text-xs mr-2">Less</span>
+                    <div class="w-3 h-3 bg-green-100 rounded-sm mr-1"></div>
+                    <div class="w-3 h-3 bg-green-300 rounded-sm mr-1"></div>
+                    <div class="w-3 h-3 bg-green-500 rounded-sm mr-1"></div>
+                    <div class="w-3 h-3 bg-green-700 rounded-sm mr-1"></div>
+                    <div class="w-3 h-3 bg-green-900 rounded-sm mr-2"></div>
+                    <span class="text-gray-400 text-xs">More</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
