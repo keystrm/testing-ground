@@ -4,47 +4,46 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite App</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <title>The Testing ground</title>
   <!-- Include Tailwind CSS from CDN for simplicity -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
-  <div id="app" class="container mx-auto px-4">
-    <div class="mt-12">
-      <h1 class="text-xl font-bold text-center text-gray-900 mb-12">Explore Categories</h1>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- SVG Animations -->
-        <div class="bg-white shadow-md rounded-lg p-4">
-          <h2 class="font-semibold text-lg text-gray-700">SVG Animations</h2>
-          <ul class="list-disc pl-5 mt-4">
-            <li><a href="/pages/svgAnimation/svgGridAnimation.html" class="text-blue-500 hover:text-blue-600">SVG animations</a></li>
-            <li><a href="/pages/svgAnimation/gitLikeGrid.html" class="text-blue-500 hover:text-blue-600">GitHub</a></li>
-          </ul>
-        </div>
-        <!-- Algorithms -->
-        <div class="bg-white shadow-md rounded-lg p-4">
-          <h2 class="font-semibold text-lg text-gray-700">Algorithms</h2>
-          <ul class="list-disc pl-5 mt-4">
-            <li><a href="/pages/algorithms/fractal_tree.html" class="text-blue-500 hover:text-blue-600">Fractal Tree</a></li>
-            <li><a href="/pages/algorithms/bubble_sort.html" class="text-blue-500 hover:text-blue-600">Bubble sort</a></li>
-            <li><a href="/pages/algorithms/a_star.html" class="text-blue-500 hover:text-blue-600">Pathfinding Algorithm</a></li>
-            <li><a href="/pages/algorithms/perline_noice.html" class="text-blue-500 hover:text-blue-600">Perlin Noise</a></li>
-            <li><a href="/pages/algorithms/perline_fluid_flow.html" class="text-blue-500 hover:text-blue-600">Perlin Noise Flow Field</a></li>
-            <li><a href="/pages/algorithms/water_ripple.html" class="text-blue-500 hover:text-blue-600">Water Ripple Effect</a></li>
-            <li><a href="/pages/algorithms/animated_perline_noice_flow.html" class="text-blue-500 hover:text-blue-600">Animated perline fluid flow</a></li>
-            <li><a href="/pages/algorithms/fractal_tree_growth.html" class="text-blue-500 hover:text-blue-600">Growing fractal tree</a></li>
-              <!-- Add more links as needed -->
-          </ul>
-        </div>
-        <!-- CSS Tricks -->
-        <div class="bg-white shadow-md rounded-lg p-4">
-          <h2 class="font-semibold text-lg text-gray-700">CSS Tricks</h2>
-          <ul class="list-disc pl-5 mt-4">
-            <li><a href="/pages/css/githubGrid.html" class="text-blue-500 hover:text-blue-600">GitHub grid</a></li>
-            <li><a href="/pages/css/flexAlign.html" class="text-blue-500 hover:text-blue-600">Flex</a></li>
-          </ul>
-        </div>
+  <div id="app" class="container mx-auto px-4 py-8">
+    <header class="mb-12 text-center">
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">Explore Our Categories</h1>
+      <p class="text-gray-600 text-lg">Browse through our collection of projects and discover various animations, algorithms, and CSS tricks.</p>
+    </header>
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- SVG Animations -->
+      <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg bg-white shadow-md rounded-lg p-6">
+        <h2 class="font-semibold text-xl text-gray-800">SVG Animations</h2>
+        <ul class="list-disc pl-5 mt-4">
+          <li><a href="/pages/svgAnimation/svgGridAnimation.html" class="text-blue-500 hover:text-blue-600">SVG animations</a></li>
+          <li><a href="/pages/svgAnimation/gitLikeGrid.html" class="text-blue-500 hover:text-blue-600">GitHub</a></li>
+        </ul>
+      </div>
+      <!-- Algorithms -->
+      <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg bg-white shadow-md rounded-lg p-6">
+        <h2 class="font-semibold text-xl text-gray-800">Algorithms</h2>
+        <ul class="list-disc pl-5 mt-4">
+          <li><a href="/pages/algorithms/fractal_tree.html" class="text-blue-500 hover:text-blue-600">Fractal Tree</a></li>
+          <li><a href="/pages/algorithms/bubble_sort.html" class="text-blue-500 hover:text-blue-600">Bubble sort</a></li>
+          <li><a href="/pages/algorithms/a_star.html" class="text-blue-500 hover:text-blue-600">Pathfinding Algorithm</a></li>
+          <li><a href="/pages/algorithms/perline_noice.html" class="text-blue-500 hover:text-blue-600">Perlin Noise</a></li>
+          <li><a href="/pages/algorithms/perline_fluid_flow.html" class="text-blue-500 hover:text-blue-600">Perlin Noise Flow Field</a></li>
+          <li><a href="/pages/algorithms/water_ripple.html" class="text-blue-500 hover:text-blue-600">Water Ripple Effect</a></li>
+          <li><a href="/pages/algorithms/animated_perline_noice_flow.html" class="text-blue-500 hover:text-blue-600">Animated perline fluid flow</a></li>
+          <li><a href="/pages/algorithms/fractal_tree_growth.html" class="text-blue-500 hover:text-blue-600">Growing fractal tree</a></li>
+        </ul>
+      </div>
+      <!-- CSS Tricks -->
+      <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg bg-white shadow-md rounded-lg p-6">
+        <h2 class="font-semibold text-xl text-gray-800">CSS Tricks</h2>
+        <ul class="list-disc pl-5 mt-4">
+          <li><a href="/pages/css/githubGrid.html" class="text-blue-500 hover:text-blue-600">GitHub grid</a></li>
+          <li><a href="/pages/css/flexAlign.html" class="text-blue-500 hover:text-blue-600">Flex</a></li>
+        </ul>
       </div>
     </div>
   </div>
