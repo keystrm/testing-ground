@@ -1,116 +1,109 @@
 document.addEventListener('DOMContentLoaded', () => {
     const parcels = [
-        { id: 1, sender: 'Alice', receiver: 'Bob', status: 'Delivered', documents: ['Invoice', 'Receipt'], extraFields: ['Weight', 'Dimensions'] },
-        { id: 2, sender: 'Charlie', receiver: 'Dave', status: 'In Transit', documents: ['Invoice'], extraFields: ['Weight'] },
+        {
+            id: 'f432b54f-0228-4afb-8868-f40a19d3ce9f',
+            details: 'Parcel Details 1',
+            extraFields: ['Color', 'Size'],
+            documents: ['Invoice', 'Receipt']
+        },
+        {
+            id: '3cb1246e-6a43-49de-8e7a-dd2292078a84',
+            details: 'Parcel Details 2',
+            extraFields: ['Weight', 'Dimensions'],
+            documents: ['Invoice']
+        },
         // Add more parcels as needed
     ];
 
-    const itemsPerPage = 1;
-    let currentPage = 1;
-    let selectedParcel = null;
+    const parcelAccordion = document.getElementById('parcelAccordion');
+    const selectAllButton = document.getElementById('selectAll');
+    const deselectAllButton = document.getElementById('deselectAll');
+    const exportButton = document.getElementById('exportButton');
 
-    const parcelTableBody = document.getElementById('parcel-table-body');
-    const pageIndicator = document.getElementById('pageIndicator');
-    const exportModal = document.getElementById('exportModal');
-    const exportForm = document.getElementById('exportForm');
-
-    function renderParcelList() {
-        parcelTableBody.innerHTML = '';
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const paginatedParcels = parcels.slice(start, end);
-
-        paginatedParcels.forEach(parcel => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${parcel.id}</td>
-                <td>${parcel.sender}</td>
-                <td>${parcel.receiver}</td>
-                <td>${parcel.status}</td>
+    function renderParcels() {
+        parcelAccordion.innerHTML = '';
+        parcels.forEach(parcel => {
+            const parcelElement = document.createElement('div');
+            parcelElement.className = 'parcel';
+            parcelElement.innerHTML = `
+                <div class="parcel-header" data-id="${parcel.id}">
+                    <span>Parcel ID: ${parcel.id}</span>
+                    <button class="toggle-button">▼</button>
+                </div>
+                <div class="parcel-body">
+                    <div class="tabs">
+                        <button class="tab-button active" data-tab="details-${parcel.id}">Details</button>
+                        <button class="tab-button" data-tab="extraFields-${parcel.id}">Extra Fields</button>
+                        <button class="tab-button" data-tab="documents-${parcel.id}">Documents</button>
+                    </div>
+                    <div class="tab-content active" id="details-${parcel.id}">
+                        <h3>Parcel Details</h3>
+                        <p>${parcel.details}</p>
+                    </div>
+                    <div class="tab-content" id="extraFields-${parcel.id}">
+                        <h3>Extra Fields</h3>
+                        ${parcel.extraFields.map(field => `
+                            <label><input type="checkbox" checked> ${field}</label>
+                        `).join('')}
+                    </div>
+                    <div class="tab-content" id="documents-${parcel.id}">
+                        <h3>Documents</h3>
+                        ${parcel.documents.map(doc => `
+                            <label><input type="checkbox" checked> ${doc}</label>
+                        `).join('')}
+                    </div>
+                </div>
             `;
-            row.addEventListener('click', () => showParcelDetails(parcel));
-            parcelTableBody.appendChild(row);
+            parcelAccordion.appendChild(parcelElement);
         });
 
-        pageIndicator.textContent = `Page ${currentPage}`;
+        attachEventListeners();
     }
 
-    function showParcelDetails(parcel) {
-        selectedParcel = parcel;
-        document.getElementById('parcel-overview').textContent = `Parcel ID: ${parcel.id}\nSender: ${parcel.sender}\nReceiver: ${parcel.receiver}\nStatus: ${parcel.status}`;
-
-        const documentList = document.getElementById('document-list');
-        documentList.innerHTML = '';
-        parcel.documents.forEach(doc => {
-            const item = document.createElement('li');
-            item.innerHTML = `<label><input type="checkbox" value="${doc}"> ${doc}</label>`;
-            documentList.appendChild(item);
+    function attachEventListeners() {
+        document.querySelectorAll('.parcel-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const body = header.nextElementSibling;
+                body.classList.toggle('active');
+                const button = header.querySelector('.toggle-button');
+                button.textContent = body.classList.contains('active') ? '▲' : '▼';
+            });
         });
 
-        const extraFieldList = document.getElementById('extra-field-list');
-        extraFieldList.innerHTML = '';
-        parcel.extraFields.forEach(field => {
-            const item = document.createElement('li');
-            item.innerHTML = `<label><input type="checkbox" value="${field}"> ${field}</label>`;
-            extraFieldList.appendChild(item);
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const parcelId = button.dataset.tab.split('-')[1];
+                document.querySelectorAll(`.tab-button[data-tab^="details-${parcelId}"], .tab-button[data-tab^="extraFields-${parcelId}"], .tab-button[data-tab^="documents-${parcelId}"]`).forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll(`.tab-content[id^="details-${parcelId}"], .tab-content[id^="extraFields-${parcelId}"], .tab-content[id^="documents-${parcelId}"]`).forEach(content => content.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
         });
     }
 
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            document.getElementById(button.dataset.tab).style.display = 'block';
+    selectAllButton.addEventListener('click', () => {
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = true;
         });
     });
 
-    document.getElementById('prevPage').addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            renderParcelList();
-        }
-    });
-
-    document.getElementById('nextPage').addEventListener('click', () => {
-        if (currentPage < Math.ceil(parcels.length / itemsPerPage)) {
-            currentPage++;
-            renderParcelList();
-        }
-    });
-
-    document.getElementById('exportButton').addEventListener('click', () => {
-        if (!selectedParcel) return;
-
-        document.getElementById('export-documents-list').innerHTML = '';
-        selectedParcel.documents.forEach(doc => {
-            const item = document.createElement('div');
-            item.innerHTML = `<label><input type="checkbox" name="documents" value="${doc}" checked> ${doc}</label>`;
-            document.getElementById('export-documents-list').appendChild(item);
+    deselectAllButton.addEventListener('click', () => {
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
         });
-
-        document.getElementById('export-extra-fields-list').innerHTML = '';
-        selectedParcel.extraFields.forEach(field => {
-            const item = document.createElement('div');
-            item.innerHTML = `<label><input type="checkbox" name="extraFields" value="${field}" checked> ${field}</label>`;
-            document.getElementById('export-extra-fields-list').appendChild(item);
-        });
-
-        exportModal.style.display = 'flex';
     });
 
-    document.querySelector('.close').addEventListener('click', () => {
-        exportModal.style.display = 'none';
+    exportButton.addEventListener('click', () => {
+        const selectedData = parcels.map(parcel => ({
+            id: parcel.id,
+            details: parcel.details,
+            extraFields: parcel.extraFields.filter((_, index) => document.querySelector(`#extraFields-${parcel.id} input[type="checkbox"]:nth-child(${index + 1})`).checked),
+            documents: parcel.documents.filter((_, index) => document.querySelector(`#documents-${parcel.id} input[type="checkbox"]:nth-child(${index + 1})`).checked)
+        }));
+
+        console.log('Exporting:', selectedData);
+        alert('Export initiated!');
     });
 
-    exportForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const selectedDocs = Array.from(exportForm.elements.documents).filter(el => el.checked).map(el => el.value);
-        const selectedFields = Array.from(exportForm.elements.extraFields).filter(el => el.checked).map(el => el.value);
-        console.log('Exporting:', { documents: selectedDocs, extraFields: selectedFields });
-        exportModal.style.display = 'none';
-    });
-
-    renderParcelList();
+    renderParcels();
 });
