@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcel Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Parcel Management System</h1>
+            <input type="text" id="search" placeholder="Search parcels...">
+        </nav>
+    </header>
+    <div class="container">
+        <aside>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Parcels</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </aside>
+        <main>
+            <section class="parcel-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parcel ID</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="parcel-table-body">
+                        <!-- Parcel rows will be dynamically added here -->
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <button id="prevPage">Previous</button>
+                    <span id="pageIndicator">Page 1</span>
+                    <button id="nextPage">Next</button>
+                </div>
+            </section>
+            <section class="parcel-details">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="overview">Overview</button>
+                    <button class="tab-button" data-tab="documents">Documents</button>
+                    <button class="tab-button" data-tab="extraFields">Extra Fields</button>
+                </div>
+                <div class="tab-content" id="overview">
+                    <h2>Parcel Overview</h2>
+                    <p id="parcel-overview">Select a parcel to view details.</p>
+                </div>
+                <div class="tab-content" id="documents" style="display: none;">
+                    <h2>Documents</h2>
+                    <ul id="document-list">
+                        <!-- Document items will be dynamically added here -->
+                    </ul>
+                </div>
+                <div class="tab-content" id="extraFields" style="display: none;">
+                    <h2>Extra Fields</h2>
+                    <ul id="extra-field-list">
+                        <!-- Extra field items will be dynamically added here -->
+                    </ul>
+                </div>
+                <button id="exportButton">Export</button>
+            </section>
+        </main>
+    </div>
+
+    <div id="exportModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Export Parcel Data</h2>
+            <form id="exportForm">
+                <fieldset>
+                    <legend>Documents</legend>
+                    <div id="export-documents-list">
+                        <!-- Export document options will be dynamically added here -->
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Extra Fields</legend>
+                    <div id="export-extra-fields-list">
+                        <!-- Export extra field options will be dynamically added here -->
+                    </div>
+                </fieldset>
+                <button type="submit">Export</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
