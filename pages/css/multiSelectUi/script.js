@@ -15,49 +15,54 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add more parcels as needed
     ];
 
-    const parcelAccordion = document.getElementById('parcelAccordion');
+    const itemsPerPage = 2;
+    let currentPage = 1;
+    const parcelList = document.getElementById('parcelList');
     const selectAllButton = document.getElementById('selectAll');
     const deselectAllButton = document.getElementById('deselectAll');
     const exportButton = document.getElementById('exportButton');
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+    const pageIndicator = document.getElementById('pageIndicator');
 
     function renderParcels() {
-        parcelAccordion.innerHTML = '';
-        parcels.forEach(parcel => {
+        parcelList.innerHTML = '';
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedParcels = parcels.slice(start, end);
+
+        paginatedParcels.forEach(parcel => {
             const parcelElement = document.createElement('div');
             parcelElement.className = 'parcel';
             parcelElement.innerHTML = `
-                <div class="parcel-header" data-id="${parcel.id}">
+                <div class="parcel-header">
                     <span>Parcel ID: ${parcel.id}</span>
-                    <button class="toggle-button">▼</button>
+                    <input type="checkbox" class="parcel-checkbox">
                 </div>
                 <div class="parcel-body">
-                    <div class="tabs">
-                        <button class="tab-button active" data-tab="details-${parcel.id}">Details</button>
-                        <button class="tab-button" data-tab="extraFields-${parcel.id}">Extra Fields</button>
-                        <button class="tab-button" data-tab="documents-${parcel.id}">Documents</button>
-                    </div>
-                    <div class="tab-content active" id="details-${parcel.id}">
-                        <h3>Parcel Details</h3>
+                    <div class="section">
+                        <h3>Details</h3>
                         <p>${parcel.details}</p>
                     </div>
-                    <div class="tab-content" id="extraFields-${parcel.id}">
+                    <div class="section">
                         <h3>Extra Fields</h3>
                         ${parcel.extraFields.map(field => `
-                            <label><input type="checkbox" checked> ${field}</label>
+                            <label><input type="checkbox" class="extra-field-checkbox" data-parcel-id="${parcel.id}"> ${field}</label>
                         `).join('')}
                     </div>
-                    <div class="tab-content" id="documents-${parcel.id}">
+                    <div class="section">
                         <h3>Documents</h3>
                         ${parcel.documents.map(doc => `
-                            <label><input type="checkbox" checked> ${doc}</label>
+                            <label><input type="checkbox" class="document-checkbox" data-parcel-id="${parcel.id}"> ${doc}</label>
                         `).join('')}
                     </div>
                 </div>
             `;
-            parcelAccordion.appendChild(parcelElement);
+            parcelList.appendChild(parcelElement);
         });
 
         attachEventListeners();
+        updatePageIndicator();
     }
 
     function attachEventListeners() {
@@ -65,20 +70,24 @@ document.addEventListener('DOMContentLoaded', () => {
             header.addEventListener('click', () => {
                 const body = header.nextElementSibling;
                 body.classList.toggle('active');
-                const button = header.querySelector('.toggle-button');
-                button.textContent = body.classList.contains('active') ? '▲' : '▼';
             });
         });
 
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const parcelId = button.dataset.tab.split('-')[1];
-                document.querySelectorAll(`.tab-button[data-tab^="details-${parcelId}"], .tab-button[data-tab^="extraFields-${parcelId}"], .tab-button[data-tab^="documents-${parcelId}"]`).forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll(`.tab-content[id^="details-${parcelId}"], .tab-content[id^="extraFields-${parcelId}"], .tab-content[id^="documents-${parcelId}"]`).forEach(content => content.classList.remove('active'));
-                button.classList.add('active');
-                document.getElementById(button.dataset.tab).classList.add('active');
+        document.querySelectorAll('.parcel-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                const parcelId = e.target.closest('.parcel').querySelector('.parcel-header').textContent;
+                document.querySelectorAll(`input[data-parcel-id="${parcelId}"]`).forEach(childCheckbox => {
+                    childCheckbox.checked = isChecked;
+                });
             });
         });
+    }
+
+    function updatePageIndicator() {
+        pageIndicator.textContent = `Page ${currentPage}`;
+        prevPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === Math.ceil(parcels.length / itemsPerPage);
     }
 
     selectAllButton.addEventListener('click', () => {
@@ -97,12 +106,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedData = parcels.map(parcel => ({
             id: parcel.id,
             details: parcel.details,
-            extraFields: parcel.extraFields.filter((_, index) => document.querySelector(`#extraFields-${parcel.id} input[type="checkbox"]:nth-child(${index + 1})`).checked),
-            documents: parcel.documents.filter((_, index) => document.querySelector(`#documents-${parcel.id} input[type="checkbox"]:nth-child(${index + 1})`).checked)
+            extraFields: parcel.extraFields.filter((_, index) => document.querySelector(`input[data-parcel-id="${parcel.id}"].extra-field-checkbox:nth-child(${index + 1})`).checked),
+            documents: parcel.documents.filter((_, index) => document.querySelector(`input[data-parcel-id="${parcel.id}"].document-checkbox:nth-child(${index + 1})`).checked)
         }));
 
         console.log('Exporting:', selectedData);
         alert('Export initiated!');
+    });
+
+    prevPageButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderParcels();
+        }
+    });
+
+    nextPageButton.addEventListener('click', () => {
+        if (currentPage < Math.ceil(parcels.length / itemsPerPage)) {
+            currentPage++;
+            renderParcels();
+        }
     });
 
     renderParcels();

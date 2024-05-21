@@ -12,23 +12,28 @@
             <h1>Export Group</h1>
         </header>
         <div class="content">
-            <div class="supplier-details">
-                <p><strong>Country:</strong> SOUTH AFRICA</p>
-                <p><strong>Activity Sector:</strong> MINING</p>
-                <p><strong>Group ID:</strong> 64b0c9b8-ee2b-47b7-8ddd-7eea2491a7f5</p>
-            </div>
-            <div class="bulk-actions">
+            <div class="side-panel">
                 <button id="selectAll">Select All</button>
                 <button id="deselectAll">Deselect All</button>
+                <button id="exportButton">Export</button>
+                <label><input type="checkbox" id="shadowedExport"> Shadowed Export?</label>
             </div>
-            <div id="parcelAccordion">
-                <!-- Parcel items will be dynamically added here -->
+            <div class="main-content">
+                <div class="supplier-details">
+                    <p><strong>Country:</strong> SOUTH AFRICA</p>
+                    <p><strong>Activity Sector:</strong> MINING</p>
+                    <p><strong>Group ID:</strong> 64b0c9b8-ee2b-47b7-8ddd-7eea2491a7f5</p>
+                </div>
+                <div id="parcelList">
+                    <!-- Parcel items will be dynamically added here -->
+                </div>
+                <div class="pagination">
+                    <button id="prevPage">Previous</button>
+                    <span id="pageIndicator">Page 1</span>
+                    <button id="nextPage">Next</button>
+                </div>
             </div>
         </div>
-        <footer>
-            <label><input type="checkbox" id="shadowedExport"> Shadowed Export?</label>
-            <button id="exportButton">Export</button>
-        </footer>
     </div>
 
     <script src="script.js"></script>

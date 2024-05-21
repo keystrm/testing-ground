@@ -6,94 +6,93 @@ body {
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 1em;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-header, footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em 0;
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1em;
+    text-align: center;
 }
 
 .content {
-    margin: 1em 0;
+    display: flex;
+    flex-grow: 1;
+}
+
+.side-panel {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.side-panel button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.side-panel button:hover {
+    background-color: #45a049;
+}
+
+.main-content {
+    margin-left: 220px;
+    padding: 1em;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 .supplier-details p {
     margin: 0.5em 0;
 }
 
-.bulk-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1em;
-}
-
-.bulk-actions button {
-    margin-left: 0.5em;
-}
-
 .parcel {
     border: 1px solid #ddd;
     margin-bottom: 1em;
     border-radius: 5px;
-    overflow: hidden;
+    padding: 1em;
 }
 
 .parcel-header {
-    background-color: #f7f7f7;
-    padding: 1em;
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.parcel-header:hover {
-    background-color: #e0e0e0;
+    cursor: pointer;
 }
 
 .parcel-body {
     display: none;
-    padding: 1em;
-    background-color: #fff;
 }
 
 .parcel-body.active {
     display: block;
 }
 
-.tab-button {
-    padding: 0.5em 1em;
-    cursor: pointer;
-    border: none;
-    background: none;
-    border-bottom: 2px solid transparent;
+.parcel-body input {
+    margin-right: 0.5em;
 }
 
-.tab-button.active {
-    border-bottom: 2px solid #4CAF50;
-    font-weight: bold;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-footer {
-    padding: 1em 0;
+.pagination {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 0;
 }
 
 button {
@@ -105,4 +104,6 @@ button {
     border-radius: 4px;
 }
 
-button#ex
+button#exportButton {
+    background-color: #5cb85c;
+}
