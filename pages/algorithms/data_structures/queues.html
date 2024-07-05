@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queues in Data Structures and Algorithms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .illustration {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Queues in Data Structures and Algorithms</h1>
+
+    <h2>Definition</h2>
+    <p>A <strong>queue</strong> is a linear data structure that follows the FIFO (First In, First Out) principle.</p>
+
+    <h2>Illustration</h2>
+    <div class="illustration">
+        Front [10, 20, 30] Rear
+    </div>
+
+    <h2>Key Characteristics</h2>
+    <ul>
+        <li><strong>FIFO:</strong> First In, First Out.</li>
+        <li><strong>Operations:</strong> Enqueue (add), Dequeue (remove), Front (first element).</li>
+    </ul>
+
+    <h2>Common Operations</h2>
+    <h3>1. Enqueue</h3>
+    <p><strong>Time Complexity:</strong> O(1)</p>
+    <div class="code">
+        <pre>
+        class Queue {
+            constructor() {
+                this.items = [];
+            }
+
+            enqueue(element) {
+                this.items.push(element);
+            }
+        }
+
+        let queue = new Queue();
+        queue.enqueue(10); // [10]
+        queue.enqueue(20); // [10, 20]
+        queue.enqueue(30); // [10, 20, 30]
+        </pre>
+    </div>
+
+    <h3>2. Dequeue</h3>
+    <p><strong>Time Complexity:</strong> O(1)</p>
+    <div class="code">
+        <pre>
+        Queue.prototype.dequeue = function() {
+            return this.items.shift();
+        };
+
+        console.log(queue.dequeue()); // 10, Queue: [20, 30]
+        console.log(queue.dequeue()); // 20, Queue: [30]
+        </pre>
+    </div>
+
+    <h3>3. Front</h3>
+    <p><strong>Time Complexity:</strong> O(1)</p>
+    <div class="code">
+        <pre>
+        Queue.prototype.front = function() {
+            return this.items[0];
+        };
+
+        console.log(queue.front()); // 30
+        </pre>
+    </div>
+
+    <h2>Practical Uses</h2>
+    <ul>
+        <li>Managing tasks in a printer spooler.</li>
+        <li>Handling requests in a web server.</li>
+        <li>Simulation of real-world queues (e.g., ticketing systems).</li>
+    </ul>
+</body>
+</html>
