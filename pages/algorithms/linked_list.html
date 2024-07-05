@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked Lists in Data Structures and Algorithms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .illustration {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Linked Lists in Data Structures and Algorithms</h1>
+
+    <h2>Definition</h2>
+    <p>A <strong>linked list</strong> is a collection of nodes where each node contains a value and a pointer to the next node.</p>
+
+    <h2>Illustration</h2>
+    <div class="illustration">
+        Head -> [10|*] -> [20|*] -> [30|*] -> [40|*] -> [50|null]
+    </div>
+
+    <h2>Key Characteristics</h2>
+    <ul>
+        <li><strong>Dynamic Size:</strong> The size of a linked list can grow or shrink dynamically.</li>
+        <li><strong>Node-Based Access:</strong> Elements are accessed using nodes that point to the next node.</li>
+    </ul>
+
+    <h2>Common Operations</h2>
+    <h3>1. Access</h3>
+    <p><strong>Time Complexity:</strong> O(n)</p>
+    <div class="code">
+        <pre>
+        class ListNode {
+            constructor(value) {
+                this.value = value;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+            }
+
+            get(index) {
+                let current = this.head;
+                for (let i = 0; i &lt; index; i++) {
+                    current = current.next;
+                }
+                return current.value;
+            }
+        }
+
+        let list = new LinkedList();
+        list.head = new ListNode(10);
+        list.head.next = new ListNode(20);
+        list.head.next.next = new ListNode(30);
+        console.log(list.get(2)); // 30
+        </pre>
+    </div>
+
+    <h3>2. Insertion</h3>
+    <p><strong>At the Beginning:</strong> O(1)</p>
+    <div class="code">
+        <pre>
+        list.prepend = function(value) {
+            const newNode = new ListNode(value);
+            newNode.next = this.head;
+            this.head = newNode;
+        };
+        list.prepend(5); // Head -> [5|*] -> [10|*] -> [20|*] -> [30|*]
+        </pre>
+    </div>
+    <p><strong>At the End:</strong> O(n)</p>
+    <div class="code">
+        <pre>
+        list.append = function(value) {
+            const newNode = new ListNode(value);
+            if (!this.head) {
+                this.head = newNode;
+                return;
+            }
+            let current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = newNode;
+        };
+        list.append(40); // Head -> [5|*] -> [10|*] -> [20|*] -> [30|*] -> [40|null]
+        </pre>
+    </div>
+
+    <h3>3. Deletion</h3>
+    <p><strong>From the Beginning:</strong> O(1)</p>
+    <div class="code">
+        <pre>
+        list.deleteFromBeginning = function() {
+            if (!this.head) return;
+            this.head = this.head.next;
+        };
+        list.deleteFromBeginning(); // Head -> [10|*] -> [20|*] -> [30|*] -> [40|null]
+        </pre>
+    </div>
+    <p><strong>From the Middle or End:</strong> O(n)</p>
+    <div class="code">
+        <pre>
+        list.delete = function(value) {
+            if (!this.head) return;
+            if (this.head.value === value) {
+                this.head = this.head.next;
+                return;
+            }
+            let current = this.head;
+            while (current.next && current.next.value !== value) {
+                current = current.next;
+            }
+            if (current.next) {
+                current.next = current.next.next;
+            }
+        };
+        list.delete(20); // Head -> [10|*] -> [30|*] -> [40|null]
+        </pre>
+    </div>
+
+    <h2>Practical Uses</h2>
+    <ul>
+        <li>Efficiently adding and removing elements from the beginning of the list.</li>
+        <li>Dynamic data structures where size can change frequently.</li>
+        <li>Implementing other data structures like stacks, queues, and graphs.</li>
+    </ul>
+</body>
+</html>
