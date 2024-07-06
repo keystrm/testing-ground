@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heaps in Data Structures and Algorithms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .illustration {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heaps in Data Structures and Algorithms</h1>
+
+    <h2>Definition</h2>
+    <p>A <strong>heap</strong> is a complete binary tree which satisfies the heap property.</p>
+    <p><strong>Max-Heap:</strong> Parent nodes are always greater than or equal to the child nodes.</p>
+    <p><strong>Min-Heap:</strong> Parent nodes are always less than or equal to the child nodes.</p>
+
+    <h2>Illustration</h2>
+    <div class="illustration">
+        <pre>
+        Max-Heap:
+             50
+           /    \
+         30      40
+        /  \    /  \
+       10   5  20  30
+
+        Min-Heap:
+             5
+           /    \
+         10      20
+        /  \    /  \
+       30   50 40  30
+        </pre>
+    </div>
+
+    <h2>Key Operations</h2>
+    <h3>1. Insertion</h3>
+    <p><strong>Time Complexity:</strong> O(log n)</p>
+    <div class="code">
+        <pre>
+class MaxHeap {
+    constructor() {
+        this.heap = [];
+    }
+
+    insert(value) {
+        this.heap.push(value);
+        this.bubbleUp();
+    }
+
+    bubbleUp() {
+        let index = this.heap.length - 1;
+        while (index > 0) {
+            let element = this.heap[index];
+            let parentIndex = Math.floor((index - 1) / 2);
+            let parent = this.heap[parentIndex];
+
+            if (parent >= element) break;
+
+            this.heap[index] = parent;
+            this.heap[parentIndex] = element;
+            index = parentIndex;
+        }
+    }
+}
+
+let maxHeap = new MaxHeap();
+maxHeap.insert(50);
+maxHeap.insert(30);
+maxHeap.insert(40);
+maxHeap.insert(10);
+maxHeap.insert(5);
+maxHeap.insert(20);
+maxHeap.insert(30);
+        </pre>
+    </div>
+
+    <h3>2. Deletion</h3>
+    <p><strong>Time Complexity:</strong> O(log n)</p>
+    <div class="code">
+        <pre>
+MaxHeap.prototype.extractMax = function() {
+    const max = this.heap[0];
+    const end = this.heap.pop();
+    if (this.heap.length > 0) {
+        this.heap[0] = end;
+        this.sinkDown(0);
+    }
+    return max;
+};
+
+MaxHeap.prototype.sinkDown = function(index) {
+    const length = this.heap.length;
+    const element = this.heap[index];
+    while (true) {
+        let leftChildIndex = 2 * index + 1;
+        let rightChildIndex = 2 * index + 2;
+        let leftChild, rightChild;
+        let swap = null;
+
+        if (leftChildIndex < length) {
+            leftChild = this.heap[leftChildIndex];
+            if (leftChild > element) {
+                swap = leftChildIndex;
+            }
+        }
+
+        if (rightChildIndex < length) {
+            rightChild = this.heap[rightChildIndex];
+            if (
+                (swap === null && rightChild > element) ||
+                (swap !== null && rightChild > leftChild)
+            ) {
+                swap = rightChildIndex;
+            }
+        }
+
+        if (swap === null) break;
+
+        this.heap[index] = this.heap[swap];
+        this.heap[swap] = element;
+        index = swap;
+    }
+};
+
+console.log(maxHeap.extractMax()); // 50
+        </pre>
+    </div>
+
+    <h2>Practical Uses</h2>
+    <ul>
+        <li>Implementing priority queues.</li>
+        <li>Heap sort algorithm.</li>
+        <li>Scheduling processes in operating systems.</li>
+    </ul>
+</body>
+</html>

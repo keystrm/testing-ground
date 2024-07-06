@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Trees and BST in Data Structures and Algorithms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .illustration {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Binary Trees and Binary Search Trees (BST) in Data Structures and Algorithms</h1>
+
+    <h2>Binary Tree</h2>
+    <p>A <strong>binary tree</strong> is a tree data structure where each node has at most two children, referred to as the left child and the right child.</p>
+
+    <h2>Binary Search Tree (BST)</h2>
+    <p>A <strong>binary search tree (BST)</strong> is a binary tree where all the left descendants are less than or equal to the root node and all the right descendants are greater than the root node.</p>
+
+    <h2>Illustration</h2>
+    <div class="illustration">
+        <pre>
+             20
+           /    \
+         10      30
+        /  \    /  \
+       5   15  25  35
+        </pre>
+    </div>
+
+    <h2>Key Operations</h2>
+    <h3>1. Insertion</h3>
+    <p><strong>Time Complexity:</strong> O(log n) on average</p>
+    <div class="code">
+        <pre>
+class TreeNode {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class BinarySearchTree {
+    constructor() {
+        this.root = null;
+    }
+
+    insert(value) {
+        const newNode = new TreeNode(value);
+        if (this.root === null) {
+            this.root = newNode;
+            return this;
+        }
+
+        let current = this.root;
+        while (true) {
+            if (value < current.value) {
+                if (current.left === null) {
+                    current.left = newNode;
+                    return this;
+                }
+                current = current.left;
+            } else {
+                if (current.right === null) {
+                    current.right = newNode;
+                    return this;
+                }
+                current = current.right;
+            }
+        }
+    }
+}
+
+let bst = new BinarySearchTree();
+bst.insert(20);
+bst.insert(10);
+bst.insert(30);
+bst.insert(5);
+bst.insert(15);
+bst.insert(25);
+bst.insert(35);
+        </pre>
+    </div>
+
+    <h3>2. Deletion</h3>
+    <p><strong>Time Complexity:</strong> O(log n) on average</p>
+    <div class="code">
+        <pre>
+BinarySearchTree.prototype.remove = function(value) {
+    const removeNode = function(node, value) {
+        if (node == null) {
+            return null;
+        }
+        if (value == node.value) {
+            if (node.left == null && node.right == null) {
+                return null;
+            }
+            if (node.left == null) {
+                return node.right;
+            }
+            if (node.right == null) {
+                return node.left;
+            }
+            var tempNode = node.right;
+            while (tempNode.left !== null) {
+                tempNode = tempNode.left;
+            }
+            node.value = tempNode.value;
+            node.right = removeNode(node.right, tempNode.value);
+            return node;
+        } else if (value < node.value) {
+            node.left = removeNode(node.left, value);
+            return node;
+        } else {
+            node.right = removeNode(node.right, value);
+            return node;
+        }
+    };
+    this.root = removeNode(this.root, value);
+};
+
+bst.remove(30);
+        </pre>
+    </div>
+
+    <h3>3. Search</h3>
+    <p><strong>Time Complexity:</strong> O(log n) on average</p>
+    <div class="code">
+        <pre>
+BinarySearchTree.prototype.find = function(value) {
+    let current = this.root;
+    while (current) {
+        if (value === current.value) {
+            return current;
+        }
+        if (value < current.value) {
+            current = current.left;
+        } else {
+            current = current.right;
+        }
+    }
+    return null;
+};
+
+console.log(bst.find(25)); // TreeNode { value: 25, left: null, right: null }
+        </pre>
+    </div>
+
+    <h3>4. Traversal</h3>
+    <p><strong>Time Complexity:</strong> O(n)</p>
+    <div class="code">
+        <pre>
+BinarySearchTree.prototype.inOrderTraversal = function(node = this.root, result = []) {
+    if (node !== null) {
+        this.inOrderTraversal(node.left, result);
+        result.push(node.value);
+        this.inOrderTraversal(node.right, result);
+    }
+    return result;
+};
+
+console.log(bst.inOrderTraversal()); // [5, 10, 15, 20, 25, 35]
+        </pre>
+    </div>
+
+    <h2>Practical Uses</h2>
+    <ul>
+        <li>Efficient searching and sorting of data.</li>
+        <li>Maintaining a dynamic dataset where insertions, deletions, and lookups are frequently required.</li>
+        <li>Implementing associative arrays (dictionaries).</li>
+    </ul>
+</body>
+</html>

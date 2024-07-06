@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Tables in Data Structures and Algorithms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .illustration {
+            font-family: monospace;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hash Tables in Data Structures and Algorithms</h1>
+
+    <h2>Definition</h2>
+    <p>A <strong>hash table</strong> is a data structure that maps keys to values for highly efficient lookup.</p>
+    <p><strong>Hash Function:</strong> Converts keys into array indices.</p>
+
+    <h2>Illustration</h2>
+    <div class="illustration">
+        <pre>
+        Key-Value Pairs:
+        {
+            "name": "Alice",
+            "age": 25,
+            "city": "Wonderland"
+        }
+        </pre>
+    </div>
+
+    <h2>Key Operations</h2>
+    <h3>1. Insertion</h3>
+    <p><strong>Time Complexity:</strong> O(1) on average</p>
+    <div class="code">
+        <pre>
+class HashTable {
+    constructor(size = 53) {
+        this.keyMap = new Array(size);
+    }
+
+    _hash(key) {
+        let total = 0;
+        let PRIME_NUMBER = 31;
+        for (let i = 0; i < Math.min(key.length, 100); i++) {
+            let char = key[i];
+            let value = char.charCodeAt(0) - 96;
+            total = (total * PRIME_NUMBER + value) % this.keyMap.length;
+        }
+        return total;
+    }
+
+    set(key, value) {
+        let index = this._hash(key);
+        if (!this.keyMap[index]) {
+            this.keyMap[index] = [];
+        }
+        this.keyMap[index].push([key, value]);
+    }
+}
+
+let ht = new HashTable();
+ht.set("name", "Alice");
+ht.set("age", 25);
+ht.set("city", "Wonderland");
+        </pre>
+    </div>
+
+    <h3>2. Deletion</h3>
+    <p><strong>Time Complexity:</strong> O(1) on average</p>
+    <div class="code">
+        <pre>
+HashTable.prototype.remove = function(key) {
+    let index = this._hash(key);
+    if (this.keyMap[index]) {
+        for (let i = 0; i < this.keyMap[index].length; i++) {
+            if (this.keyMap[index][i][0] === key) {
+                this.keyMap[index].splice(i, 1);
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+ht.remove("age");
+        </pre>
+    </div>
+
+    <h3>3. Search</h3>
+    <p><strong>Time Complexity:</strong> O(1) on average</p>
+    <div class="code">
+        <pre>
+HashTable.prototype.get = function(key) {
+    let index = this._hash(key);
+    if (this.keyMap[index]) {
+        for (let i = 0; i < this.keyMap[index].length; i++) {
+            if (this.keyMap[index][i][0] === key) {
+                return this.keyMap[index][i][1];
+            }
+        }
+    }
+    return undefined;
+};
+
+console.log(ht.get("name")); // Alice
+console.log(ht.get("city")); // Wonderland
+        </pre>
+    </div>
+
+    <h2>Practical Uses</h2>
+    <ul>
+        <li>Implementing associative arrays or dictionaries.</li>
+        <li>Caching and memoization.</li>
+        <li>Database indexing.</li>
+    </ul>
+</body>
+</html>
