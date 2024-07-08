@@ -72,7 +72,7 @@ class BinarySearchTree {
 
         let current = this.root;
         while (true) {
-            if (value < current.value) {
+            if (value &lt; current.value) {
                 if (current.left === null) {
                     current.left = newNode;
                     return this;
@@ -126,7 +126,7 @@ BinarySearchTree.prototype.remove = function(value) {
             node.value = tempNode.value;
             node.right = removeNode(node.right, tempNode.value);
             return node;
-        } else if (value < node.value) {
+        } else if (value &lt; node.value) {
             node.left = removeNode(node.left, value);
             return node;
         } else {
@@ -151,7 +151,7 @@ BinarySearchTree.prototype.find = function(value) {
         if (value === current.value) {
             return current;
         }
-        if (value < current.value) {
+        if (value &lt; current.value) {
             current = current.left;
         } else {
             current = current.right;

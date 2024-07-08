@@ -117,14 +117,14 @@ MaxHeap.prototype.sinkDown = function(index) {
         let leftChild, rightChild;
         let swap = null;
 
-        if (leftChildIndex < length) {
+        if (leftChildIndex &lt; length) {
             leftChild = this.heap[leftChildIndex];
             if (leftChild > element) {
                 swap = leftChildIndex;
             }
         }
 
-        if (rightChildIndex < length) {
+        if (rightChildIndex &lt; length) {
             rightChild = this.heap[rightChildIndex];
             if (
                 (swap === null && rightChild > element) ||
