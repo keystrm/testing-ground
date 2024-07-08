@@ -57,7 +57,7 @@ class HashTable {
     _hash(key) {
         let total = 0;
         let PRIME_NUMBER = 31;
-        for (let i = 0; i < Math.min(key.length, 100); i++) {
+        for (let i = 0; i &lt; Math.min(key.length, 100); i++) {
             let char = key[i];
             let value = char.charCodeAt(0) - 96;
             total = (total * PRIME_NUMBER + value) % this.keyMap.length;
@@ -88,7 +88,7 @@ ht.set("city", "Wonderland");
 HashTable.prototype.remove = function(key) {
     let index = this._hash(key);
     if (this.keyMap[index]) {
-        for (let i = 0; i < this.keyMap[index].length; i++) {
+        for (let i = 0; i &lt; this.keyMap[index].length; i++) {
             if (this.keyMap[index][i][0] === key) {
                 this.keyMap[index].splice(i, 1);
                 return true;
