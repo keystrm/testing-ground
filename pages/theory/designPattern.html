@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple To-Do List with Subtasks</title>
+  <title>To-Do List with Notes and Subtasks</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,7 +14,7 @@
       height: 100vh;
       margin: 0;
     }
-    
+
     .container {
       background-color: #fff;
       padding: 20px;
@@ -23,84 +23,131 @@
       width: 100%;
       max-width: 600px;
     }
-    
+
     h1 {
       margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+      text-align: center;
     }
-    
+
     ul {
       list-style: none;
       padding: 0;
     }
-    
+
     li {
       padding: 10px;
-      background-color: #f4f4f9;
-      border-bottom: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
     }
-    
-    li:last-child {
-      border-bottom: none;
-    }
-    
+
     .task {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
     }
-    
+
+    .task input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
     .subtasks {
       padding-left: 20px;
+      margin-top: 10px;
     }
-    
+
     .subtasks li {
-      background-color: #e9ecef;
-      border: none;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+
+    .note {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    .task-label {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #333;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Design patterns</h1>
+    <h1>Design Patterns</h1>
     <ul>
       <li>
         <div class="task">
-          <input type="checkbox" id="task1">
-          <label for="task1">OOP</label>
+          <label class="task-label">
+            <input type="checkbox" id="task1">
+            OOP
+          </label>
+          <textarea class="note" placeholder="Add a short note for Task 1"></textarea>
         </div>
         <ul class="subtasks">
           <li>
             <div class="task">
-              <input type="checkbox" id="subtask1-1" checked>
-              <label for="subtask1-1">Classes</label>
+              <label class="task-label">
+                <input type="checkbox" id="subtask1-1">
+                Classes
+              </label>
+              <textarea class="note" placeholder="Add a short note for Subtask 1.1"></textarea>
             </div>
           </li>
           <li>
             <div class="task">
-              <input type="checkbox" id="subtask1-2" checked>
-              <label for="subtask1-2">Interfaces</label>
+              <label class="task-label">
+                <input type="checkbox" id="subtask1-2">
+                Interfaces
+              </label>
+              <textarea class="note" placeholder="Add a short note for Subtask 1.2">
+                use to loosely couple classes - programme to an interface to avoid breaking changes
+              </textarea>
             </div>
           </li>
         </ul>
       </li>
       <li>
         <div class="task">
-          <input type="checkbox" id="task2">
-          <label for="task2">Task 2</label>
+          <label class="task-label">
+            <input type="checkbox" id="task2">
+            Task 2
+          </label>
+          <textarea class="note" placeholder="Add a short note for Task 2"></textarea>
         </div>
         <ul class="subtasks">
           <li>
             <div class="task">
-              <input type="checkbox" id="subtask2-1">
-              <label for="subtask2-1">Subtask 2.1</label>
+              <label class="task-label">
+                <input type="checkbox" id="subtask2-1">
+                Subtask 2.1
+              </label>
+              <textarea class="note" placeholder="Add a short note for Subtask 2.1"></textarea>
             </div>
           </li>
         </ul>
       </li>
       <li>
         <div class="task">
-          <input type="checkbox" id="task3">
-          <label for="task3">Task 3</label>
+          <label class="task-label">
+            <input type="checkbox" id="task3">
+            Task 3
+          </label>
+          <textarea class="note" placeholder="Add a short note for Task 3"></textarea>
         </div>
       </li>
     </ul>
