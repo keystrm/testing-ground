@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do List with Subtasks</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    li {
+      padding: 10px;
+      background-color: #f4f4f9;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    li:last-child {
+      border-bottom: none;
+    }
+    
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .subtasks {
+      padding-left: 20px;
+    }
+    
+    .subtasks li {
+      background-color: #e9ecef;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Design patterns</h1>
+    <ul>
+      <li>
+        <div class="task">
+          <input type="checkbox" id="task1">
+          <label for="task1">OOP</label>
+        </div>
+        <ul class="subtasks">
+          <li>
+            <div class="task">
+              <input type="checkbox" id="subtask1-1" checked>
+              <label for="subtask1-1">Classes</label>
+            </div>
+          </li>
+          <li>
+            <div class="task">
+              <input type="checkbox" id="subtask1-2" checked>
+              <label for="subtask1-2">Interfaces</label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="task">
+          <input type="checkbox" id="task2">
+          <label for="task2">Task 2</label>
+        </div>
+        <ul class="subtasks">
+          <li>
+            <div class="task">
+              <input type="checkbox" id="subtask2-1">
+              <label for="subtask2-1">Subtask 2.1</label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="task">
+          <input type="checkbox" id="task3">
+          <label for="task3">Task 3</label>
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
