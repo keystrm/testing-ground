@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do List with IndexedDB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+    }
+    
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    button {
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #218838;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    li {
+      padding: 10px;
+      background-color: #f4f4f9;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <div class="input-container">
+      <input type="text" id="new-task" placeholder="Add a new task">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="task-list"></ul>
+  </div>
+  <script>
+    let db;
+    const request = indexedDB.open('todoList', 1);
+
+    request.onupgradeneeded = (event) => {
+      db = event.target.result;
+      const objectStore = db.createObjectStore('tasks', { keyPath: 'id', autoIncrement: true });
+      objectStore.createIndex('task', 'task', { unique: false });
+      objectStore.createIndex('completed', 'completed', { unique: false });
+    };
+
+    request.onsuccess = (event) => {
+      db = event.target.result;
+      loadTasks();
+    };
+
+    request.onerror = (event) => {
+      console.error('Database error:', event.target.errorCode);
+    };
+
+    function addTask() {
+      const taskInput = document.getElementById('new-task');
+      const taskText = taskInput.value.trim();
+      if (taskText) {
+        const transaction = db.transaction(['tasks'], 'readwrite');
+        const objectStore = transaction.objectStore('tasks');
+        const request = objectStore.add({ task: taskText, completed: false });
+        request.onsuccess = () => {
+          taskInput.value = '';
+          loadTasks();
+        };
+      }
+    }
+
+    function loadTasks() {
+      const taskList = document.getElementById('task-list');
+      taskList.innerHTML = '';
+      const transaction = db.transaction(['tasks'], 'readonly');
+      const objectStore = transaction.objectStore('tasks');
+      objectStore.openCursor().onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          const taskItem = document.createElement('li');
+          taskItem.innerHTML = `
+            <input type="checkbox" ${cursor.value.completed ? 'checked' : ''} onclick="toggleTask(${cursor.value.id}, this)">
+            ${cursor.value.task}
+            <button onclick="removeTask(${cursor.value.id})">Remove</button>
+          `;
+          taskList.appendChild(taskItem);
+          cursor.continue();
+        }
+      };
+    }
+
+    function toggleTask(id, checkbox) {
+      const transaction = db.transaction(['tasks'], 'readwrite');
+      const objectStore = transaction.objectStore('tasks');
+      const request = objectStore.get(id);
+      request.onsuccess = (event) => {
+        const task = event.target.result;
+        task.completed = checkbox.checked;
+        objectStore.put(task).onsuccess = loadTasks;
+      };
+    }
+
+    function removeTask(id) {
+      const transaction = db.transaction(['tasks'], 'readwrite');
+      const objectStore = transaction.objectStore('tasks');
+      objectStore.delete(id).onsuccess = loadTasks;
+    }
+  </script>
+</body>
+</html>
