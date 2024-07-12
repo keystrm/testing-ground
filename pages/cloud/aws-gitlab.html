@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD with GitLab to AWS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CI/CD with GitLab to AWS</h1>
+    <ol>
+        <li><strong>Create a GitLab Repository:</strong>
+            <p>Set up your project repository on GitLab.</p>
+        </li>
+        <li><strong>Configure GitLab Runner:</strong>
+            <p>Install and register a GitLab Runner to run your CI/CD pipelines.</p>
+        </li>
+        <li><strong>Create <code>.gitlab-ci.yml</code>:</strong>
+            <p>In your repository's root, create a <code>.gitlab-ci.yml</code> file to define your pipeline stages (build, test, deploy).</p>
+        </li>
+        <li><strong>Set Up AWS Credentials:</strong>
+            <p>Store your AWS access key and secret key in GitLab CI/CD variables (<code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code>).</p>
+        </li>
+        <li><strong>Define Pipeline Stages:</strong>
+            <ul>
+                <li><strong>Build Stage:</strong> Compile or build your application.</li>
+                <li><strong>Test Stage:</strong> Run your automated tests.</li>
+                <li><strong>Deploy Stage:</strong> Deploy your application to AWS.</li>
+            </ul>
+        </li>
+        <li><strong>Deployment Script:</strong>
+            <p>Use AWS CLI commands in the deploy stage to push your application to AWS services like EC2, S3, or ECS.</p>
+            <pre><code>deploy:
+  stage: deploy
+  script:
+    - aws s3 sync ./build s3://your-s3-bucket
+  only:
+    - master
+            </code></pre>
+        </li>
+        <li><strong>Trigger the Pipeline:</strong>
+            <p>Push your changes to GitLab, which will trigger the pipeline defined in your <code>.gitlab-ci.yml</code>.</p>
+        </li>
+        <li><strong>Monitor the Pipeline:</strong>
+            <p>Monitor your pipeline's progress through the GitLab interface, ensuring each stage completes successfully.</p>
+        </li>
+    </ol>
+</body>
+</html>
